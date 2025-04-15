@@ -1,9 +1,11 @@
 from django.db import models
 
+from drf.settings import NULLABLE
+
 
 class Course(models.Model):
     title = models.CharField(max_length=100)
-    preview = models.ImageField(upload_to='course_previews/')
+    preview = models.ImageField(upload_to='course_previews/', **NULLABLE)
     description = models.TextField()
 
     def __str__(self):
@@ -11,10 +13,10 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE, related_query_name="lessons")
     title = models.CharField(max_length=100)
     description = models.TextField()
-    preview = models.ImageField(upload_to='lesson_previews/')
+    preview = models.ImageField(upload_to='lesson_previews/', **NULLABLE)
     video_url = models.URLField()
 
     def __str__(self):
