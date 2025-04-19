@@ -31,3 +31,4 @@ class LessonCourseTests(TestCase):
             description='Описание урока',
             video_url='https://youtube.com/test'
         )
+
