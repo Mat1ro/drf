@@ -16,6 +16,9 @@ class Command(BaseCommand):
             is_staff=True,
             is_superuser=True,
         )
+        user = User.objects.get(email='email@example.com')
+        user.set_password('password')
+        user.save()
         Payments.objects.create(
             user=user,
             course_id=1,

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from drf import settings
 from drf.settings import NULLABLE
 from materials.models import Course, Lesson
 
@@ -33,4 +34,15 @@ class Payments(models.Model):
     payment_type = models.CharField(max_length=20, choices=PAYMENT_TYPE_CHOICES)
 
     def __str__(self):
-        return f"{self.user.email} course: {self.course.title}, lesson: {self.lesson.title}, amount: {self.amount}"
+        return f"{self.user.email} course: {self.course.title}, lesson: {self.lesson.title}, amount: {self.price}"
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='subscriptions')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='subscriptions')
+
+    class Meta:
+        unique_together = ('user', 'course')
+
+    def __str__(self):
+        return f"{self.user.email} подписан на {self.course.title}"
