@@ -1,9 +1,10 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated
 
 from materials.models import Course, Lesson
 from materials.paginators import StandardResultsSetPagination
 from materials.serializers import CourseSerializer, LessonSerializer
+from materials.tasks import course_update
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -15,6 +16,13 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     pagination_class = StandardResultsSetPagination
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        response = super().update(request, *args, **kwargs)
+        if response.status_code == status.HTTP_200_OK:
+            course_update.delay(instance.id)
+        return response
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
