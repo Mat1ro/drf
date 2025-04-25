@@ -24,6 +24,7 @@ USER = os.getenv("DB_USER")
 PASSWORD = os.getenv("PASSWORD")
 HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
+STRIPE_KEY = os.getenv('STRIPE_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
 
     'django_filters',
     'rest_framework',
+    'drf_yasg',
+    'corsheaders',
 
     'users',
     'materials',
@@ -70,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'drf.urls'
@@ -154,3 +159,5 @@ NULLABLE = {
     'blank': True,
     'null': True
 }
+
+CORS_ALLOW_ALL_ORIGINS = True  # Для разработки

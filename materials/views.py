@@ -7,31 +7,57 @@ from materials.serializers import CourseSerializer, LessonSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для работы с курсами (Course).
+    Поддерживает полный CRUD (create, retrieve, update, delete).
+    Использует пагинацию StandardResultsSetPagination и сериализатор CourseSerializer.
+    """
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     pagination_class = StandardResultsSetPagination
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
+    """
+    Представление для создания нового урока (Lesson).
+    Доступ разрешён только аутентифицированным пользователям.
+    Использует сериализатор LessonSerializer.
+    """
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
 
 
 class LessonListAPIView(generics.ListAPIView):
+    """
+    Представление для получения списка всех уроков.
+    Поддерживает пагинацию через StandardResultsSetPagination.
+    Использует сериализатор LessonSerializer.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     pagination_class = StandardResultsSetPagination
 
 
 class LessonDetailAPIView(generics.RetrieveAPIView):
+    """
+    Представление для получения детальной информации об одном уроке по его ID.
+    Использует сериализатор LessonSerializer.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
+    """
+    Представление для обновления информации об уроке.
+    Использует сериализатор LessonSerializer.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
 
 class LessonDeleteAPIView(generics.DestroyAPIView):
+    """
+    Представление для удаления урока.
+    """
     queryset = Lesson.objects.all()

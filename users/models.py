@@ -32,6 +32,8 @@ class Payments(models.Model):
     payment_date = models.DateField(auto_now_add=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     payment_type = models.CharField(max_length=20, choices=PAYMENT_TYPE_CHOICES)
+    session_id = models.CharField(max_length=255, **NULLABLE)
+    url = models.CharField(max_length=500, **NULLABLE)
 
     def __str__(self):
         return f"{self.user.email} course: {self.course.title}, lesson: {self.lesson.title}, amount: {self.price}"
